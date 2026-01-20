@@ -333,6 +333,7 @@
                     <th style="width: 25%;">Activity</th>
                     <th style="width: 10%;">Points</th>
                     <th style="width: 20%;">Order Copy</th>
+                    <th style="width: 15%;">Order Number</th>
                     <th style="width: 20%;">Upload Document</th>
                     <th style="width: 5%;">Action</th>
                 </tr>
@@ -352,6 +353,7 @@
                     <td><textarea class="form-control" required title="Enter Activity" rows="2">{{ row[1] }}</textarea></td>
                     <td><input type="number" class="form-control points" value="{{ row[2] }}" min="0" max="3" oninput="calculateFeedbackTotal(this)" required title="Enter Points"></td>
                     <td><textarea class="form-control" required title="Enter Order Copy" rows="2">{{ row[3] }}</textarea></td>
+                    <td><input type="text" class="form-control order-number" title="Enter Order Number"></td>
                     <td>
                         {% if row[4] %}
                         <a href="{{ url_for('static', filename=row[4]) }}" target="_blank">View Upload</a>
@@ -524,6 +526,7 @@ function addFeedbackRow() {
         <td><textarea class="form-control" required title="Enter Activity" rows="2"></textarea></td>
         <td><input type="number" class="form-control points" min="0" max="3" required title="Enter Points" oninput="calculateFeedbackTotal(this)"></td>
         <td><textarea class="form-control" required title="Enter Order Copy" rows="2"></textarea></td>
+        <td><input type="text" class="form-control order-number" title="Enter Order Number"></td>
         <td>
             <input type="file" class="form-control-file" onchange="validateFileSize(this, 1)" title="Upload Document (Optional)">
             <div class="upload-status"></div>

@@ -449,6 +449,7 @@
                 <th>Activity</th>
                 <th>Points</th>
                 <th>Order Copy</th>
+                <th>Order Number</th>
                 <th>Uploaded Document</th>
 
             </tr>
@@ -460,6 +461,7 @@
                 <td>{{ row[1] }}</td> <!-- Activity -->
                 <td>{{ row[2] }}</td> <!-- Points -->
                 <td>{{ row[3] }}</td> <!-- Order Copy -->
+                <td>{{ row[5] if row[5] else 'N/A' }}</td> <!-- Order Number -->
                 <td>
                     {% if row[4] %}
                         <a href="{{ url_for('uploaded_file', filename=row[4].split('/')[-1]) }}" 
@@ -473,13 +475,13 @@
             </tr>
             {% else %}
             <tr>
-                <td colspan="4">No institute activities available for the selected academic year.</td>
+                <td colspan="6">No institute activities available for the selected academic year.</td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     <tr style="background-color: #f5c6d1; font-weight: bold;">
-        <td colspan="5" class="text-end" style="padding-right: 20px;">
+        <td colspan="6" class="text-end" style="padding-right: 20px;">
             Total = <span style="font-size: 1.2rem; color: #ed0000;">{{ points_data.institute}}</span>
         </td>
     </tr>
