@@ -1095,7 +1095,7 @@ def form2_page(form_id):
 
         # Query institute_act table for institute activities
         inst_sql = """
-            SELECT semester, activity, points, order_cpy, uploads 
+            SELECT semester, activity, points, order_cpy, uploads, order_number
             FROM institute_act 
             WHERE form_id = %s
         """
@@ -1273,6 +1273,7 @@ def save_form2_data():
             act_name = activity.get('activity', '')
             points = activity.get('points', 0)
             order_copy = activity.get('orderCopy', '')
+            order_number = activity.get('orderNumber', '')
             upload_path = None
             
             # Handle file upload if needed
@@ -1304,9 +1305,9 @@ def save_form2_data():
             # Always insert with direct insertion since we've already deleted all rows
             # And we've already handled preserving the uploads if needed
             cursor.execute("""
-                INSERT INTO institute_act (form_id, srno, semester, activity, points, order_cpy, uploads)
-                VALUES (%s, %s, %s, %s, %s, %s, %s)
-            """, (form_id, i+1, semester, act_name, points, order_copy, upload_path))
+                INSERT INTO institute_act (form_id, srno, semester, activity, points, order_cpy, uploads, order_number)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            """, (form_id, i+1, semester, act_name, points, order_copy, upload_path, order_number))
         
         # Commit changes
         conn.commit()
@@ -1483,7 +1484,7 @@ def review(form_id):
 
                 # Fetch institute activity data
                 sql = """
-                    SELECT semester, activity, points, order_cpy, uploads
+                    SELECT semester, activity, points, order_cpy, uploads, order_number
                     FROM institute_act WHERE form_id = %s
                 """
                 cursor.execute(sql, (form_id,))
@@ -1981,7 +1982,7 @@ def render_pastforms():
                 
                 # Fetch institute activity data
                 cursor.execute("""
-                    SELECT semester, activity, points, order_cpy, uploads
+                    SELECT semester, activity, points, order_cpy, uploads, order_number
                     FROM institute_act WHERE form_id = %s
                 """, (form_id,))
                 inst_act_data = cursor.fetchall()
@@ -2416,7 +2417,7 @@ def search_pastforms():
 
                 # Institute activity data
                 cursor.execute("""
-                    SELECT semester, activity, points, order_cpy, uploads
+                    SELECT semester, activity, points, order_cpy, uploads, order_number
                     FROM institute_act WHERE form_id = %s
                 """, (form_id,))
                 inst_act_data = process_rows(cursor.fetchall())
@@ -3510,7 +3511,7 @@ def search_pastforms2():
 
                     # Institute activity data
                     cursor.execute("""
-                        SELECT semester, activity, points, order_cpy, uploads
+                        SELECT semester, activity, points, order_cpy, uploads, order_number
                         FROM institute_act WHERE form_id = %s
                     """, (form_id,))
                     inst_act_data = process_rows(cursor.fetchall())
@@ -4690,7 +4691,7 @@ def principlepastform():
 
                     # Institute activity data
                     cursor.execute("""
-                        SELECT semester, activity, points, order_cpy, uploads
+                        SELECT semester, activity, points, order_cpy, uploads, order_number
                         FROM institute_act WHERE form_id = %s
                     """, (form_id,))
                     inst_act_data = process_rows(cursor.fetchall())
@@ -4990,7 +4991,7 @@ def principle_pastforms():
 
                     # Institute activity data
                     cursor.execute("""
-                        SELECT semester, activity, points, order_cpy, uploads
+                        SELECT semester, activity, points, order_cpy, uploads, order_number
                         FROM institute_act WHERE form_id = %s
                     """, (form_id,))
                     inst_act_data = process_rows(cursor.fetchall())
@@ -5793,7 +5794,7 @@ def generate_appraisal_html(user_id, form_id=None, acad_years=None):
 
                 # Fetch institute activity data
                 cursor.execute("""
-                    SELECT semester, activity, points, order_cpy, uploads
+                    SELECT semester, activity, points, order_cpy, uploads, order_number
                     FROM institute_act WHERE form_id = %s
                 """, (form_id,))
                 inst_act_data = cursor.fetchall() or []
@@ -7844,7 +7845,7 @@ def pastform(form_id):
         form2_dept_data = cursor.fetchall()
         
         # Fetch Form 2 - Institute Activities
-        cursor.execute("SELECT semester, activity, points, order_cpy FROM institute_act WHERE form_id = %s", (form_id,))
+        cursor.execute("SELECT semester, activity, points, order_cpy, order_number FROM institute_act WHERE form_id = %s", (form_id,))
         form2_inst_data = cursor.fetchall()
         
         # Fetch custom table data

@@ -353,7 +353,7 @@
                     <td><textarea class="form-control" required title="Enter Activity" rows="2">{{ row[1] }}</textarea></td>
                     <td><input type="number" class="form-control points" value="{{ row[2] }}" min="0" max="3" oninput="calculateFeedbackTotal(this)" required title="Enter Points"></td>
                     <td><textarea class="form-control" required title="Enter Order Copy" rows="2">{{ row[3] }}</textarea></td>
-                    <td><input type="text" class="form-control order-number" title="Enter Order Number"></td>
+                    <td><input type="text" class="form-control order-number" value="{{ row[5] if row[5] else '' }}" title="Enter Order Number"></td>
                     <td>
                         {% if row[4] %}
                         <a href="{{ url_for('static', filename=row[4]) }}" target="_blank">View Upload</a>
@@ -875,6 +875,7 @@ function saveFormData() {
         const activity = row.querySelector('textarea[title="Enter Activity"]').value;
         const points = row.querySelector('.points').value;
         const orderCopy = row.querySelector('textarea[title="Enter Order Copy"]').value;
+        const orderNumber = row.querySelector('.order-number').value;
         const fileInput = row.querySelector('input[type="file"]');
         const uploadedFile = row.querySelector('input[name="uploaded_file"]');
         
@@ -883,6 +884,7 @@ function saveFormData() {
         formData.append(`instituteActivities[${index}][activity]`, activity);
         formData.append(`instituteActivities[${index}][points]`, points);
         formData.append(`instituteActivities[${index}][orderCopy]`, orderCopy);
+        formData.append(`instituteActivities[${index}][orderNumber]`, orderNumber);
         
         // Only append file data if a file is selected or there's an existing uploaded file
         if (uploadedFile) {
